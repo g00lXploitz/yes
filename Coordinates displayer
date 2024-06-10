@@ -1,0 +1,22 @@
+local Players = game:GetService("Players")
+
+local playerTextBox = script.Parent:WaitForChild("PlayerTextBox")
+local displayText = script.Parent:WaitForChild("DisplayText")
+
+playerTextBox.FocusLost:Connect(function(enterPressed)
+    if enterPressed then
+        local playerName = playerTextBox.Text
+        local player = Players:FindFirstChild(playerName)
+        
+        if player then
+            local playerPosition = player and player.Character.PrimaryPart.Position
+            if playerPosition then
+                displayText.Text = string.format("Coordinates of %s:\nX: %.2f\nY: %.2f\nZ: %.2f", playerName, playerPosition.X, playerPosition.Y, playerPosition.Z)
+            else
+                displayText.Text = "Player's character is not loaded or does not exist."
+            end
+        else
+            displayText.Text = "Player not found."
+        end
+    end
+end)
